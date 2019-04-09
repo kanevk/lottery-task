@@ -1,0 +1,2 @@
+# lottery-task
+Lottery game
