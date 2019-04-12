@@ -3,45 +3,23 @@
   --color-yellow: #FAD744;
   --color-dark: #2B3253;
   --color-black: black;
+  --color-light-yellow: #e4dec6;
 }
 
-.App {
-}
-
-.App-header {
-  background-color: var(--color-yellow);
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
-  color: white;
-  margin-bottom: 50px;
-}
-
-.App-header h1.emphasis { color: var(--color-red); }
-.App-header h1 {
-  text-shadow: 1px 1px var(--color-black);
-}
-
-.App-body {
+/* .App-body {
   display: flex;
 }
 
 .App-body .DrawSide {
-  flex: 0 1 50%;
-  max-width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .App-body .Ticket {
-  flex: 0 1 50%;
   margin: 0 auto;
   width: 350px;
   text-align: center;
-  max-width: 50%;
   border-right: 2px solid var(--color-yellow);
 }
 
@@ -53,7 +31,11 @@
   opacity: 0.5;
 }
 
-.App-body .Ticket-body {
+.TicketSide {
+  background: #2B3253;
+}
+
+.App-body .Ticket-cells {
   display: grid;
   text-align: center;
   grid-template-columns: repeat(7, 50px);
@@ -63,11 +45,11 @@
   margin-bottom: 30px;
 }
 
-.App-body .Ticket-body .cell {
+.App-body .Ticket-cells .cell {
   font-size: 20px;
   color: var(--color-black);
 }
-.App-body .Ticket-body .cell.selected { background-color: var(--color-yellow); color: white; }
+.App-body .Ticket-cells .cell.selected { background-color: var(--color-yellow); color: white; }
 
 .button {
   padding: 5px 10px;
@@ -97,11 +79,181 @@
   padding: 6px 10px 4px;
 } */
 
-@keyframes App-logo-spin {
+/* .WinnersTable {
+  width: 100%;
+  text-align: center;
+}
+.WinnersTable-row {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #947b1e;
+  color: white;
+  text-shadow: 1px 1px var(--color-black);
+}
+
+.WinnersTable-row span {
+  font-weight: bold;
+}
+
+.SubPage {
+  height: 100%;
+  flex-grow: 1;
+  position: relative;
+}
+
+.SubPage::before {
+  content: 'Something';
+  position: absolute;
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+  writing-mode: vertical-lr;
+  font-size: 30px;
+  text-align: center;
+}
+
+.ActiveSubPage {
+  flex-grow: 12;
+} */
+
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
+} */
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
 }
+
+.App {
+  height: 100%;
+}
+
+.App-header {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 20px;
+  color: var(--color-dark);
+  padding-bottom: 2px;
+  border-bottom: 1px solid;
+}
+
+.App-header h1 {
+  text-shadow: 1px 1px var(--color-black);
+}
+
+.App-body {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.Menu {
+  width: 150px;
+  min-width: 100px;
+  height: 100%;
+  border-right: 1px solid;
+}
+
+.Menu-item {
+  display: inline-block;
+  text-align: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-top: 10px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.Menu-item span {
+  text-decoration: none;
+  background: none;
+}
+
+.Manu-item, .active {
+  box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
+  background: #dedede;
+}
+
+.App-body-main {
+  height: 100%;
+  width: 80%;
+  background: #dedede;
+  min-width: 400px;
+  padding-top: 40px;
+}
+
+.Ticket {
+  margin-right: auto;
+  margin-left: auto;
+  width: 350px;
+  text-align: center;
+}
+
+.Ticket input {
+  widows: 50%;
+  height: 30px;
+  margin-bottom: 50px;
+  font-size: 20px;
+}
+
+.Ticket-cells {
+  display: grid;
+  text-align: center;
+  grid-template-columns: repeat(7, 50px);
+  grid-template-rows: repeat(7, 50px);
+  justify-content: center;
+  grid-gap: 5px;
+  margin-bottom: 30px;
+}
+
+.Ticket-cells .cell {
+  font-size: 20px;
+  color: var(--color-black);
+}
+.Ticket-cells .cell.selected { background-color: var(--color-yellow); color: white; }
+
+.DrawPage {
+  justify-content: center;
+}
+
+.button {
+  padding: 5px 10px;
+  display: inline;
+  background: var(--color-yellow) url(button.png) repeat-x bottom;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-shadow: 1px 1px var(--color-dark);
+}
+
+.button:hover {
+  background-position: 0 -48px;
+}
+
+button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.button.big-red {
+  font-size: 36px;
+  padding: 5px 30px;
+  background: var(--color-red) url(button.png) repeat-x bottom;
+}
+
+
+
+
+
+
