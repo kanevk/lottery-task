@@ -20,12 +20,10 @@ ActiveRecord::Base.transaction do
   puts 'Constructing imports'
   tickets_data =
     Array.new(tickets_count) do |i|
-      nums = numbers_basket.sample(6)
       {
         lottery_id: lottery.id,
         nickname: "bill-#{i}",
-        numbers: nums,
-        bit_serialized_numbers: nums
+        bit_serialized_numbers: numbers_basket.sample(6)
       }
     end
 
