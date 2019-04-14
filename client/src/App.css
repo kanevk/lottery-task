@@ -87,7 +87,7 @@ html, body, #root {
   grid-template-columns: repeat(7, 50px);
   grid-template-rows: repeat(7, 50px);
   justify-content: center;
-  grid-gap: 5px;
+  grid-gap: 1px;
   margin-bottom: 30px;
 }
 

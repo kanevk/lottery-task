@@ -91,10 +91,12 @@ const TicketComponent = ({ submitNewTicket }) => {
 }
 
 const WinningRowComponent = ({ ticket: { nickname, numbers, prize, winner } }) => {
+    const decoratedNumbers = numbers.toString().split(',').join(', ')
+
     return (
         <div className="WinnersTable-row">
             <div className="WinnersTable-row-cells"><span role="img" aria-label="Human">👤</span> {nickname}</div>
-            <div className="WinnersTable-row-cells"><span role="img" aria-label="Number six">➏</span> {numbers.toString()}</div>
+            <div className="WinnersTable-row-cells"><span role="img" aria-label="Number six">➏</span> {decoratedNumbers}</div>
             <div className="WinnersTable-row-cells"><span role="img" aria-label="Flying money">💸</span> {presentNumberAsMoney(prize)}</div>
         </div>
     )
