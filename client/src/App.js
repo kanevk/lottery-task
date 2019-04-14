@@ -4,6 +4,7 @@ import { ReactComponent as Loader } from './loader.svg';
 
 const DOMAIN = 'localhost:3002'
 
+// ---------------------------------------- Utils --------------------------------------------------
 const presentNumberAsMoney = (number) => {
     return number.toLocaleString('us-US', { style: 'currency', currency: 'USD' })
 }
@@ -30,6 +31,7 @@ const fetchJSON = (url, customSettings = {}) => {
     return fetch(url, settings).then(handleAPIResponse)
 }
 
+// ---------------------------------------- Components --------------------------------------------
 const CellComponent = ({ number, selected, numberToggled, selectionDisabled }) => {
     const classNames = `cell ${selected ? 'selected' : ''}`
     const handleClick = (e) => {
@@ -46,7 +48,7 @@ const CellComponent = ({ number, selected, numberToggled, selectionDisabled }) =
     )
 }
 
-const TicketComponent = ({ afterTicketSubmit }) => {
+const TicketComponent = ({ submitNewTicket }) => {
     const [nickname, changeNickname] = React.useState('')
     const [selectedNumbers, changeSelectedNumbers] = React.useState([])
 
@@ -62,10 +64,7 @@ const TicketComponent = ({ afterTicketSubmit }) => {
     const handleNicknameChange = (e) => { changeNickname(e.target.value) }
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetchJSON(`http://${DOMAIN}/lottery/tickets`, {
-            method: 'POST',
-            body: JSON.stringify({ ticket: { nickname, numbers: selectedNumbers } })
-        }).then(_ => { afterTicketSubmit() })
+        submitNewTicket(nickname, selectedNumbers)
     }
 
     return (
@@ -91,6 +90,16 @@ const TicketComponent = ({ afterTicketSubmit }) => {
     )
 }
 
+const WinningRowComponent = ({ ticket: { nickname, numbers, prize, winner } }) => {
+    return (
+        <div className="WinnersTable-row">
+            <div className="WinnersTable-row-cells"><span role="img" aria-label="Human">👤</span> {nickname}</div>
+            <div className="WinnersTable-row-cells"><span role="img" aria-label="Number six">➏</span> {numbers.toString()}</div>
+            <div className="WinnersTable-row-cells"><span role="img" aria-label="Flying money">💸</span> {presentNumberAsMoney(prize)}</div>
+        </div>
+    )
+}
+
 const WinnersTableComponent = ({ winningTickets }) => {
     const [renderedCount, changeRenderedCount] = React.useState(100)
     // A naive but simple way to do a pagination
@@ -98,19 +107,9 @@ const WinnersTableComponent = ({ winningTickets }) => {
         renderedCount === winningTickets.length || changeRenderedCount(winningTickets.length)
     }
 
-    const WinningRow = ({ ticket: { nickname, numbers, prize, winner } }) => {
-        return (
-            <div className="WinnersTable-row">
-                <div className="WinnersTable-row-cells"><span role="img" aria-label="Human">👤</span> {nickname}</div>
-                <div className="WinnersTable-row-cells"><span role="img" aria-label="Number six">➏</span> {numbers.toString()}</div>
-                <div className="WinnersTable-row-cells"><span role="img" aria-label="Flying money">💸</span> {presentNumberAsMoney(prize)}</div>
-            </div>
-        )
-    }
-
     return (
         <div className="WinnersTable" onScroll={handleScroll}>
-            {winningTickets.slice(0, renderedCount).map((ticket, i) => (<WinningRow ticket={ticket} key={i} />))}
+            {winningTickets.slice(0, renderedCount).map((ticket, i) => (<WinningRowComponent ticket={ticket} key={i} />))}
         </div>
     )
 }
@@ -135,27 +134,27 @@ const App = () => {
             })
     }
 
+    const handleNewTicketSubmission = (nickname, numbers) => {
+        fetchJSON(`http://${DOMAIN}/lottery/tickets`, {
+            method: 'POST',
+            body: JSON.stringify({ ticket: { nickname, numbers } })
+        }).then(_ => {
+            changeWinningTickets(null)
+            setMenuActivity({ drawPage: true })
+        })
+    }
+
     if (!ticketsCount) {
         syncTicketsCount()
         return (<div> Loading... </div>)
     }
 
+    if (menuActivity.drawPage) {
+        syncTicketsCount()
+    }
+
     const enrollPageClasses = `Menu-item ${menuActivity.enrollPage ? 'active' : ''}`
     const drawPageClasses = `Menu-item ${menuActivity.drawPage ? 'active' : ''}`
-
-    let mainBodyContent
-    if (menuActivity.enrollPage) {
-        mainBodyContent = (<TicketComponent afterTicketSubmit={_ => setMenuActivity({ drawPage: true })} />)
-    } else if (menuActivity.drawPage) {
-        syncTicketsCount()
-        mainBodyContent = (
-            <div className='DrawPage'>
-                <button className="button" onClick={handleDrawClick}> Find the winner </button>
-                <p><strong>{ticketsCount}</strong> tickets submited</p>
-                {winningTickets && <WinnersTableComponent winningTickets={winningTickets} />}
-            </div>
-        )
-    }
 
     return (
         <div className="App">
@@ -168,11 +167,20 @@ const App = () => {
                         <span>Play now</span>
                     </span>
                     <span onMouseOver={() => { setMenuActivity({ drawPage: true }) }} className={drawPageClasses}>
-                        <span>Draw!</span>
+                        <span>Draw</span>
                     </span>
                 </div>
                 <div className="App-body-main">
-                    {mainBodyContent}
+                    {
+                        menuActivity.enrollPage ?
+                            <TicketComponent submitNewTicket={handleNewTicketSubmission} />
+                            :
+                            <div className='DrawPage'>
+                                <button className="button" onClick={handleDrawClick}> Find the winner </button>
+                                <p><strong>{ticketsCount}</strong> tickets submited</p>
+                                {winningTickets && <WinnersTableComponent winningTickets={winningTickets} />}
+                            </div>
+                    }
                 </div>
             </div>
         </div>

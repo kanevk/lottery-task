@@ -1,129 +1,9 @@
 :root {
   --color-red: #EF5455;
-  --color-yellow: #FAD744;
+  --color-bordo: #a14646;
   --color-dark: #2B3253;
   --color-black: black;
-  --color-light-yellow: #e4dec6;
 }
-
-/* .App-body {
-  display: flex;
-}
-
-.App-body .DrawSide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.App-body .Ticket {
-  margin: 0 auto;
-  width: 350px;
-  text-align: center;
-  border-right: 2px solid var(--color-yellow);
-}
-
-.App-body .Ticket-overlay {
-  position: absolute;
-  background-color: black;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-}
-
-.TicketSide {
-  background: #2B3253;
-}
-
-.App-body .Ticket-cells {
-  display: grid;
-  text-align: center;
-  grid-template-columns: repeat(7, 50px);
-  grid-template-rows: repeat(7, 50px);
-  justify-content: center;
-  grid-gap: 5px;
-  margin-bottom: 30px;
-}
-
-.App-body .Ticket-cells .cell {
-  font-size: 20px;
-  color: var(--color-black);
-}
-.App-body .Ticket-cells .cell.selected { background-color: var(--color-yellow); color: white; }
-
-.button {
-  padding: 5px 10px;
-  display: inline;
-  background: var(--color-yellow) url(button.png) repeat-x bottom;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-  border-radius: 5px;
-  text-shadow: 1px 1px var(--color-dark);
-}
-.button:hover {
-  background-position: 0 -48px;
-}
-
-.button.big-red {
-  font-size: 36px;
-  padding: 5px 30px;
-  background: var(--color-red) url(button.png) repeat-x bottom;
-}
-/* .button:active {
-  background-position: 0 top;
-  position: relative;
-  top: 1px;
-  padding: 6px 10px 4px;
-} */
-
-/* .WinnersTable {
-  width: 100%;
-  text-align: center;
-}
-.WinnersTable-row {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  background-color: #947b1e;
-  color: white;
-  text-shadow: 1px 1px var(--color-black);
-}
-
-.WinnersTable-row span {
-  font-weight: bold;
-}
-
-.SubPage {
-  height: 100%;
-  flex-grow: 1;
-  position: relative;
-}
-
-.SubPage::before {
-  content: 'Something';
-  position: absolute;
-  background-color: inherit;
-  width: 100%;
-  height: 100%;
-  writing-mode: vertical-lr;
-  font-size: 30px;
-  text-align: center;
-}
-
-.ActiveSubPage {
-  flex-grow: 12;
-} */
-
-/* @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
 
 html, body, #root {
   height: 100%;
@@ -215,7 +95,7 @@ html, body, #root {
   font-size: 20px;
   color: var(--color-black);
 }
-.Ticket-cells .cell.selected { background-color: var(--color-yellow); color: white; }
+.Ticket-cells .cell.selected { background-color: var(--color-bordo); color: white; }
 
 .DrawPage {
   display: flex;
@@ -261,7 +141,7 @@ html, body, #root {
 .button {
   padding: 5px 10px;
   display: inline;
-  background: var(--color-yellow) url(button.png) repeat-x bottom;
+  background: var(--color-bordo);
   border: none;
   color: #fff;
   cursor: pointer;
@@ -279,13 +159,6 @@ button:disabled {
   opacity: 0.5;
   pointer-events: none;
 }
-
-.button.big-red {
-  font-size: 36px;
-  padding: 5px 30px;
-  background: var(--color-red) url(button.png) repeat-x bottom;
-}
-
 
 
 
