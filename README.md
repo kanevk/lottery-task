@@ -1,18 +1,49 @@
 # lottery-task
 Lottery game
 
+## Assumptions
+ - Having a possible load of millions tickets
+
 ## Setup
 
+### API
+
+You need Ruby 2.5.1
+
+Install gem dependencies
+```
+$ bundle
+```
+
+Setup PostgreSQL and create user `lottery`
 ```
 $ createuser -P -s -e lottery
 ```
 
+Setup the DB which will create the databases, load the schema and seed the dev database
 ```
-$ be rails s -p 3002
+$ bundle exec rails db:setup
 ```
 
-## Assumptions
- - Having a lot of tickets(millions/billions)
+You can use `LOTTERY_TICKETS_COUNT` for increasing the seeded tickets
+```
+$ LOTTERY_TICKETS_COUNT='1000000' bundle exec rails db:setup # It passes for ~ 1 minute
+```
+
+### Client
+
+Recommended Node version: >10.9.0
+
+Install dependencies
+```
+$ npm install
+```
+
+Start server
+
+```
+$ npm start
+```
 
 ## TODOS
 
@@ -21,25 +52,10 @@ $ be rails s -p 3002
 - [] Fix the DB query hack
 - [] add validations: nickname length 20
 
-## Research
-
-UI prototype
- - create new ticket with UI validation
-
-API + Database
-
-
-## Prototype
-
-2 UI pieces
-
-- 3 divs next to each other, two - smashed
-- animate move
-- vertical label ability
-
 ## Run tests
 
 ```
+cd api
 bundle exec rspec
 ```
 
