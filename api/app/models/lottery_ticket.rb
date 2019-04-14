@@ -30,7 +30,7 @@ class LotteryTicket < ApplicationRecord
     }
 
     where(<<-SQL, query_interpolation).to_a
-      char_length(regexp_replace((bit_serialized_numbers & B:winning_bits)::text, '0', '', 'g')) = :matches_count
+      char_length(replace((bit_serialized_numbers & B:winning_bits)::text, '0', '')) = :matches_count
     SQL
   end
 end
