@@ -25,11 +25,12 @@ class LotteryTicket < ApplicationRecord
   def self.matches_for(winning_numbers, match_threshold)
     query_interpolation = {
       winning_bits: LotteryBitSerializer.new.serialize(winning_numbers),
-      matches_count: match_threshold + 2
+      # We add 1 here since the bit representation always start with additional '1' in order to be valid
+      matches_count: match_threshold + 1
     }
 
     where(<<-SQL, query_interpolation).to_a
-      array_length(regexp_split_to_array((bit_serialized_numbers & B:winning_bits)::text, E'0*'), 1) = :matches_count
+      char_length(regexp_replace((bit_serialized_numbers & B:winning_bits)::text, '0', '', 'g')) = :matches_count
     SQL
   end
 end
