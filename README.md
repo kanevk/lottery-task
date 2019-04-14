@@ -14,6 +14,12 @@ $ be rails s -p 3002
 ## Assumptions
  - Having a lot of tickets(millions/billions)
 
+## TODOS
+
+- change `schema.rb -> structure.sql`
+- add validations:
+  nickname length 20
+
 ## Research
 
 UI prototype

@@ -142,11 +142,7 @@ html, body, #root {
   font-size: 20px;
   color: var(--color-dark);
   padding-bottom: 2px;
-  border-bottom: 1px solid;
-}
-
-.App-header h1 {
-  text-shadow: 1px 1px var(--color-black);
+  margin-bottom: 10px;
 }
 
 .App-body {
@@ -159,7 +155,7 @@ html, body, #root {
   width: 150px;
   min-width: 100px;
   height: 100%;
-  border-right: 1px solid;
+  margin-right: 20px;
 }
 
 .Menu-item {
@@ -167,7 +163,6 @@ html, body, #root {
   text-align: center;
   padding-top: 30px;
   padding-bottom: 30px;
-  margin-top: 10px;
   width: 100%;
   cursor: pointer;
 }
@@ -178,17 +173,19 @@ html, body, #root {
 }
 
 .Manu-item, .active {
-  box-shadow: 0 0 5px 0 rgba(0,0,0,.3);
-  background: #dedede;
+  background: #e4dbde;
+  border-top-right-radius: 5px;
 }
 
 .App-body-main {
   height: 100%;
-  width: 80%;
-  background: #dedede;
-  min-width: 400px;
+  width: 100%;
+  background: url('money-background-3.jpg');
+  min-width: 700px;
   padding-top: 40px;
+  border-radius: 5px;
 }
+.App-body-main::after { content: ''; width: 200px; height: 100%; }
 
 .Ticket {
   margin-right: auto;
@@ -221,8 +218,45 @@ html, body, #root {
 .Ticket-cells .cell.selected { background-color: var(--color-yellow); color: white; }
 
 .DrawPage {
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+.DrawPage h3 { display: inline-block; }
+
+.DrawPage button {
+  padding: 10px 20px;
+}
+
+.WinnersTable {
+  display: flex;
+  margin-top: 50px;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  max-height: 400px;
+}
+
+.WinnersTable-row {
+  height: 40px;
+  display: flex;
+}
+.WinnersTable-row:nth-child(2n) {
+  background: #ffffff66
+;
+}
+.WinnersTable-row:nth-child(2n + 1) {
+  background: #ffffffd4;
+}
+
+.WinnersTable-row-cells {
+  width: 200px;
+  padding-left: 5px;
+  line-height: 40px;
+  font-weight: 500;
+}
+
+.WinnersTable-row-cells:last-child { border-right: none; }
 
 .button {
   padding: 5px 10px;

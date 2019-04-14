@@ -54,46 +54,42 @@ end
 #   end
 # end
 
+# winning the lottery. Where the Jackpot is to be divided as follows:
+# 3 numbers - 10% of the Jackpot
+# 4 numbers - 15% of the Jackpot
+# 5 numbers - 25% of the Jackpot
+# 6 numbers - 50% of the Jackpot, or all 100%, if there are no other sequences of winning tickets other than 6
+
 class LotteryTicket < ApplicationRecord
+  WinningTicket = Struct.new :nickname, :numbers, :matches_count, :prize, keyword_init: true
   # attribute :numbers, ArrayJsonbType.new
   attribute :bit_serialized_numbers, LotteryBitSerializer.new
-
-  # validates :numbers, lottery_numbers: true
-
-  # def self.number_subsets(winning_numbers, n)
-  #   where('array_length(ARRAY(select jsonb_array_elements(numbers) INTERSECT select jsonb_array_elements(?::jsonb)), 1) = ?', winning_numbers.to_json, n)
-  # end
-
-  def self.bit_number_subsets(winning_numbers, n)
-    serialized_winning_numbers = LotteryBitSerializer.new.serialize(winning_numbers)
-    where("array_length(regexp_split_to_array((bit_serialized_numbers & B:winning_bits)::text, E'0*'), 1) = :occurences", winning_bits: serialized_winning_numbers, occurences: n + 2)
-  end
+  alias_attribute :numbers, :bit_serialized_numbers
 
   def self.find_matching_numbers(winning_numbers)
-    find_matching_numbers_ruby(winning_numbers)
-  end
+    jackpot = Lottery::JACKPOT
+    tickets_by_match_count =
+      [3, 4, 5, 6].reduce({}) do |hash, matches_count|
+        hash.merge(
+          matches_count => where(<<-SQL, winning_bits: LotteryBitSerializer.new.serialize(winning_numbers), matches_count: matches_count + 2).to_a
+            array_length(regexp_split_to_array((bit_serialized_numbers & B:winning_bits)::text, E'0*'), 1) = :matches_count
+          SQL
+        )
+      end
 
-  # def self.find_matching_numbers_sql(winning_numbers)
-  #   [3, 4, 5, 6].flat_map do |set_size|
-  #     number_subsets(winning_numbers, set_size)
-  #       .map { |ticket| { matches_count: set_size, prize: 300, numbers: ticket.numbers } }
-  #   end
-  # end
+    if tickets_by_match_count[3].empty? && tickets_by_match_count[4] && tickets_by_match_count[5]
+      winning_tickets_count = tickets_by_match_count[6].count
+      tickets_by_match_count[6].map do |ticket|
+        WinningTicket.new(nickname: ticket.nickname, numbers: ticket.numbers, matches_count: 6, prize: (jackpot / winning_tickets_count).round(2))
+      end
+    else
+      tickets_by_match_count.flat_map do |matches_count, tickets|
+        local_jackpot = Lottery::JACKPLOT_PER_MATCHES.fetch(matches_count)
 
-  def self.find_matching_numbers_bit_sql(winning_numbers)
-    [3, 4, 5, 6].flat_map do |set_size|
-      bit_number_subsets(winning_numbers, set_size)
-        .map { |ticket| { matches_count: set_size, prize: 300, numbers: ticket.bit_serialized_numbers } }
+        tickets.map do |ticket|
+          WinningTicket.new(nickname: ticket.nickname, numbers: ticket.numbers, matches_count: matches_count, prize: (local_jackpot / tickets.count).round(2))
+        end
+      end
     end
-  end
-
-  def self.find_matching_numbers_ruby(winning_numbers)
-    winning_set = winning_numbers.to_set
-    matches = []
-    find_each(batch_size: 100_000) do |ticket|
-      matches_count = ticket.bit_serialized_numbers.select { |n| winning_set.include?(n) }.count
-      matches << { matches_count: matches_count, numbers: ticket.numbers } if matches_count >= 3
-    end
-    matches
   end
 end
