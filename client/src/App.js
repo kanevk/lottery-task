@@ -98,7 +98,7 @@ const WinnersTableComponent = ({ winningTickets }) => {
         renderedCount === winningTickets.length || changeRenderedCount(winningTickets.length)
     }
 
-    const WinningRow = ({ ticket: { nickname, numbers, prize, matches_count } }) => {
+    const WinningRow = ({ ticket: { nickname, numbers, prize, winner } }) => {
         return (
             <div className="WinnersTable-row">
                 <div className="WinnersTable-row-cells"><span role="img" aria-label="Human">👤</span> {nickname}</div>
@@ -127,8 +127,11 @@ const App = () => {
     const handleDrawClick = () => {
         fetchJSON(`http://${DOMAIN}/lottery/draws`, { method: 'POST' })
             .then(({ tickets }) => {
-                const sortedTickets = tickets.sort((first, second) => second.matches_count - first.matches_count)
-                changeWinningTickets(sortedTickets.map(ticket => ({ ...ticket, prize: parseFloat(ticket.prize) })))
+                const localTickets = tickets
+                    .map(ticket => ({ ...ticket, prize: parseFloat(ticket.prize) }))
+                    .sort((first, second) => second.prize - first.prize)
+
+                changeWinningTickets(localTickets)
             })
     }
 
