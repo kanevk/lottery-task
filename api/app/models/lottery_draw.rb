@@ -13,7 +13,7 @@ module LotteryDraw
   }.freeze
 
   def call
-    winning_numbers = (1..49).to_a.sample(6)
+    winning_numbers = (1..49).to_a.sample(6, random: SecureRandom)
 
     find_matching_numbers(winning_numbers)
   end
