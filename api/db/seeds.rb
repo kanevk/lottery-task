@@ -14,14 +14,12 @@ tickets_count = (ENV['LOTTERY_TICKETS_COUNT'] || 10_000).to_i
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
 ActiveRecord::Base.transaction do
-  lottery = Lottery.create
   numbers_basket = (1..49).to_a
 
   puts 'Constructing imports'
   tickets_data =
     Array.new(tickets_count) do |i|
       {
-        lottery_id: lottery.id,
         nickname: "bill-#{i}",
         bit_serialized_numbers: numbers_basket.sample(6)
       }

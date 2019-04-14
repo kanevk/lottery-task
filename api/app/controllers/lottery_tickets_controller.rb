@@ -4,8 +4,7 @@ class LotteryTicketsController < ApplicationController
   end
 
   def create
-    # ticket = LotteryTicket.create_from_list(1, params[:numbers])
-    ticket = LotteryTicket.create(params.require(:ticket).permit(:nickname, numbers: []).merge(lottery_id: 1))
+    ticket = LotteryTicket.create(params.require(:ticket).permit(:nickname, numbers: []))
 
     render json: { id: ticket.id }, status: :created
   end

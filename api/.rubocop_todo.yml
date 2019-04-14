@@ -49,7 +49,6 @@ Style/Documentation:
     - 'app/controllers/lottery_tickets_controller.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/application_record.rb'
-    - 'app/models/lottery.rb'
     - 'config/application.rb'
     - 'db/migrate/20190410192517_create_tickets.rb'
     - 'db/migrate/20190412195503_add_bit_serialized_numbers.rb'
@@ -107,9 +106,3 @@ Style/StringLiterals:
 Style/SymbolArray:
   Exclude:
     - 'Gemfile'
-
-# Offense count: 33
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 130

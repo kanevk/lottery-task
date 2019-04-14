@@ -16,9 +16,10 @@ $ be rails s -p 3002
 
 ## TODOS
 
-- change `schema.rb -> structure.sql`
-- add validations:
-  nickname length 20
+- [x] - change `schema.rb -> structure.sql`
+- [] Test the main logic
+- [] Fix the DB query hack
+- [] add validations: nickname length 20
 
 ## Research
 
@@ -36,6 +37,11 @@ API + Database
 - animate move
 - vertical label ability
 
+## Run tests
+
+```
+bundle exec rspec
+```
 
 
 

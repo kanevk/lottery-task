@@ -65,7 +65,7 @@ const TicketComponent = ({ afterTicketSubmit }) => {
         fetchJSON(`http://${DOMAIN}/lottery/tickets`, {
             method: 'POST',
             body: JSON.stringify({ ticket: { nickname, numbers: selectedNumbers } })
-        })
+        }).then(_ => { afterTicketSubmit() })
     }
 
     return (
@@ -142,7 +142,7 @@ const App = () => {
 
     let mainBodyContent
     if (menuActivity.enrollPage) {
-        mainBodyContent = (<TicketComponent />)
+        mainBodyContent = (<TicketComponent afterTicketSubmit={_ => setMenuActivity({ drawPage: true })} />)
     } else if (menuActivity.drawPage) {
         syncTicketsCount()
         mainBodyContent = (
