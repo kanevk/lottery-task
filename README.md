@@ -30,6 +30,11 @@ You can use `LOTTERY_TICKETS_COUNT` for increasing the seeded tickets
 $ LOTTERY_TICKETS_COUNT='1000000' bundle exec rails db:setup # It passes for ~ 1 minute
 ```
 
+Start server
+```
+bundle exec rails s
+```
+
 ### Client
 
 Recommended Node version: >10.9.0
@@ -44,13 +49,6 @@ Start server
 ```
 $ npm start
 ```
-
-## TODOS
-
-- [x] - change `schema.rb -> structure.sql`
-- [] Test the main logic
-- [] Fix the DB query hack
-- [] add validations: nickname length 20
 
 ## Run tests
 
